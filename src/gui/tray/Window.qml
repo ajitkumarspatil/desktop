@@ -676,7 +676,7 @@ Window {
 
         UnifiedSearchResultNothingFound {
             id: unifiedSearchResultNothingFound
-            visible: false
+
             anchors.top: trayWindowUnifiedSearchInputContainer.bottom
             anchors.left: trayWindowBackground.left
             anchors.right: trayWindowBackground.right
@@ -685,28 +685,11 @@ Window {
             text: UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
 
             property bool isSearchRunning: UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress
+            property bool waitingForSearchTermEditEnd: UserModel.currentUser.unifiedSearchResultsListModel.waitingForSearchTermEditEnd
             property bool isSearchResultsEmpty: unifiedSearchResultsListView.count === 0
             property bool nothingFound: text && isSearchResultsEmpty && !UserModel.currentUser.unifiedSearchResultsListModel.errorString
 
-            onIsSearchRunningChanged: {
-                if (unifiedSearchResultNothingFound.isSearchRunning) {
-                    visible = false;
-                } else {
-                    if (nothingFound) {
-                        visible = true;
-                    }
-                }
-            }
-
-            onTextChanged: {
-                visible = false;
-            }
-
-            onIsSearchResultsEmptyChanged: {
-                if (!unifiedSearchResultNothingFound.isSearchResultsEmpty) {
-                    visible = false;
-                }
-            }
+            visible: !isSearchRunning && !waitingForSearchTermEditEnd && nothingFound
         }
 
         UnifiedSearchResultItemSkeletonContainer {
