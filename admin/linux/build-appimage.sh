@@ -15,6 +15,8 @@ export PATH=$QT_BASE_DIR/bin:$PATH
 export LD_LIBRARY_PATH=$QT_BASE_DIR/lib/x86_64-linux-gnu:$QT_BASE_DIR/lib:$LD_LIBRARY_PATH
 export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
+export VER_KFRAMEWORKS=5.96.0
+
 # Set defaults
 export SUFFIX=${DRONE_PULL_REQUEST:=master}
 if [ $SUFFIX != "master" ]; then
@@ -35,7 +37,28 @@ cd build
 cmake -G Ninja -D CMAKE_INSTALL_PREFIX=/usr ..
 cmake --build . --target all
 DESTDIR=/app cmake --install .
+cd ../..
 
+# KArchive
+git clone https://invent.kde.org/frameworks/extra-cmake-modules.git
+cd extra-cmake-modules
+git checkout v$VER_KFRAMEWORKS
+mkdir build
+cd build
+cmake -G Ninja ..
+cmake --build . --target all
+cmake --install .
+cd ../..
+
+git clone https://invent.kde.org/frameworks/karchive.git
+cd karchive
+git checkout v$VER_KFRAMEWORKS
+mkdir build
+cd build
+cmake -G Ninja -D CMAKE_INSTALL_PREFIX=/usr ..
+cmake --build . --target all
+DESTDIR=/app cmake --install .
+cd ../..
 
 # Build client
 mkdir build-client
