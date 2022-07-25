@@ -63,7 +63,7 @@ public slots:
     void broadcastStatusPushMessage(const QString &systemPath, SyncFileStatus fileStatus);
 
 signals:
-    void shareCommandReceived(const QString &sharePath, const QString &localPath, ShareDialogStartPage startPage);
+    void shareCommandReceived(const QString &localPath);
     void fileActivityCommandReceived(const QString &objectName, const int objectId);
 
 private slots:

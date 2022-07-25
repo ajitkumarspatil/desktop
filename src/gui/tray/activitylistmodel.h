@@ -39,10 +39,9 @@ class InvalidFilenameDialog;
 class ActivityListModel : public QAbstractListModel
 {
     Q_OBJECT
-
     Q_PROPERTY(quint32 maxActionButtons READ maxActionButtons CONSTANT)
+    Q_PROPERTY(AccountState *accountState READ accountState WRITE setAccountState NOTIFY accountStateChanged)
 
-    Q_PROPERTY(AccountState *accountState READ accountState CONSTANT)
 public:
     enum DataRole {
         DarkIconRole = Qt::UserRole + 1,
@@ -98,7 +97,6 @@ public:
     void removeActivityFromActivityList(Activity activity);
 
     AccountState *accountState() const;
-    void setAccountState(AccountState *state);
 
     static constexpr quint32 maxActionButtons()
     {
@@ -111,6 +109,8 @@ public:
     QString replyMessageSent(const Activity &activity) const;
 
 public slots:
+    void setAccountState(AccountState *state);
+
     void slotRefreshActivity();
     void slotRefreshActivityInitial();
     void slotRemoveAccount();
@@ -119,6 +119,8 @@ public slots:
     void slotTriggerDismiss(const int activityIndex);
 
 signals:
+    void accountStateChanged();
+
     void activityJobStatusCode(int statusCode);
     void sendNotificationRequest(const QString &accountName, const QString &link, const QByteArray &verb, int row);
 

@@ -102,7 +102,6 @@ signals:
     void openHelp();
     void shutdown();
 
-    void openShareDialog(const QString &sharePath, const QString &localPath);
     void showFileActivityDialog(const QString &objectName, const int objectId);
     void sendChatMessage(const QString &token, const QString &message, const QString &replyTo);
     void showErrorMessageDialog(const QString &error);
@@ -123,6 +122,8 @@ public slots:
 
     void setSyncIsPaused(const bool syncIsPaused);
     void setIsOpen(const bool isOpen);
+
+    void createShareDialog(const QString &localPath);
 
 private slots:
     void slotUnpauseAllFolders();

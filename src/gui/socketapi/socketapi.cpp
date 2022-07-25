@@ -537,7 +537,7 @@ void SocketApi::processShareRequest(const QString &localFile, SocketListener *li
         const QString message = QLatin1String("SHARE:OK:") + QDir::toNativeSeparators(localFile);
         listener->sendMessage(message);
 
-        emit shareCommandReceived(remotePath, fileData.localPath, startPage);
+        emit shareCommandReceived(fileData.localPath);
     }
 }
 
@@ -783,7 +783,7 @@ void SocketApi::command_COPY_PUBLIC_LINK(const QString &localFile, SocketListene
     connect(job, &GetOrCreatePublicLinkShare::done, this,
         [](const QString &url) { copyUrlToClipboard(url); });
     connect(job, &GetOrCreatePublicLinkShare::error, this,
-        [=]() { emit shareCommandReceived(fileData.serverRelativePath, fileData.localPath, ShareDialogStartPage::PublicLinks); });
+        [=]() { emit shareCommandReceived(fileData.localPath); });
     job->run();
 }
 

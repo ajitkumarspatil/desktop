@@ -266,6 +266,32 @@ void Systray::createCallDialog(const Activity &callNotification, const AccountSt
     }
 }
 
+void Systray::createShareDialog(const QString &localPath)
+{
+    if(_trayEngine) {
+        const auto folder = FolderMan::instance()->folderForPath(localPath);
+        if (!folder) {
+            qCWarning(lcSystray) << "Could not open share dialog for" << localPath << "no responsible folder found";
+            return;
+        }
+
+        const QVariantMap initialProperties{
+            {"accountState", QVariant::fromValue(folder->accountState())},
+            {"localPath", localPath},
+        };
+
+        const auto shareDialog = new QQmlComponent(_trayEngine, QStringLiteral("qrc:/qml/src/gui/filedetails/FileDetailsWindow.qml"));
+
+        if (shareDialog && !shareDialog->isError()) {
+            shareDialog->createWithInitialProperties(initialProperties);
+        } else if (shareDialog) {
+            qCWarning(lcSystray) << shareDialog->errorString();
+        } else {
+            qCWarning(lcSystray) << "Unable to open share dialog for unknown reasons...";
+        }
+    }
+}
+
 void Systray::slotCurrentUserChanged()
 {
     if (_trayEngine) {

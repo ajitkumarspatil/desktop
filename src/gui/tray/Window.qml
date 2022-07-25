@@ -830,26 +830,5 @@ ApplicationWindow {
                 model.slotTriggerDefaultAction(index)
             }
         }
-
-        Loader {
-            id: fileActivityDialogLoader
-
-            property string objectName: ""
-            property int objectId: -1
-
-            function refresh() {
-                active = true
-                item.model.load(activityModel.accountState, objectId)
-                item.show()
-            }
-
-            active: false
-            sourceComponent: FileActivityDialog {
-                title: qsTr("%1 - File activity").arg(fileActivityDialogLoader.objectName)
-                onClosing: fileActivityDialogLoader.active = false
-            }
-
-            onLoaded: refresh()
-        }
     } // Item trayWindowMainItem
 }

@@ -100,14 +100,10 @@ public slots:
     /**
      * Open a share dialog for a file or folder.
      *
-     * sharePath is the full remote path to the item,
      * localPath is the absolute local path to it (so not relative
      * to the folder).
      */
-    void slotShowShareDialog(const QString &sharePath, const QString &localPath, ShareDialogStartPage startPage);
-
-    void slotRemoveDestroyedShareDialogs();
-
+    void slotShowShareDialog(const QString &localPath);
     void slotNewAccountWizard();
 
 private slots:

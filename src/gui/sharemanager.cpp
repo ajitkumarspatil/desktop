@@ -58,7 +58,7 @@ Share::Share(AccountPtr account,
     const ShareType shareType,
     bool isPasswordSet,
     const Permissions permissions,
-    const QSharedPointer<Sharee> shareWith)
+    const ShareePtr shareWith)
     : _account(account)
     , _id(id)
     , _uidowner(uidowner)
@@ -101,7 +101,7 @@ Share::ShareType Share::getShareType() const
     return _shareType;
 }
 
-QSharedPointer<Sharee> Share::getShareWith() const
+ShareePtr Share::getShareWith() const
 {
     return _shareWith;
 }
@@ -316,7 +316,7 @@ UserGroupShare::UserGroupShare(AccountPtr account,
     const ShareType shareType,
     bool isPasswordSet,
     const Permissions permissions,
-    const QSharedPointer<Sharee> shareWith,
+    const ShareePtr shareWith,
     const QDate &expireDate,
     const QString &note)
     : Share(account, id, owner, ownerDisplayName, path, shareType, isPasswordSet, permissions, shareWith)
@@ -508,7 +508,7 @@ void ShareManager::slotSharesFetched(const QJsonDocument &reply)
 
 QSharedPointer<UserGroupShare> ShareManager::parseUserGroupShare(const QJsonObject &data)
 {
-    QSharedPointer<Sharee> sharee(new Sharee(data.value("share_with").toString(),
+    ShareePtr sharee(new Sharee(data.value("share_with").toString(),
         data.value("share_with_displayname").toString(),
         static_cast<Sharee::Type>(data.value("share_type").toInt())));
 
@@ -579,7 +579,7 @@ QSharedPointer<LinkShare> ShareManager::parseLinkShare(const QJsonObject &data)
 
 QSharedPointer<Share> ShareManager::parseShare(const QJsonObject &data)
 {
-    QSharedPointer<Sharee> sharee(new Sharee(data.value("share_with").toString(),
+    ShareePtr sharee(new Sharee(data.value("share_with").toString(),
         data.value("share_with_displayname").toString(),
         (Sharee::Type)data.value("share_type").toInt()));
 
