@@ -34,12 +34,6 @@ MouseArea {
         isTalkReplyOptionVisible = !isTalkReplyOptionVisible
     }
 
-    Rectangle {
-        id: activityHover
-        anchors.fill: parent
-        color: (parent.containsMouse ? Style.lightHover : "transparent")
-    }
-
     ToolTip {
         id: activityMouseAreaTooltip
         visible: containsMouse && !activityContent.childHovered && model.displayLocation !== ""
