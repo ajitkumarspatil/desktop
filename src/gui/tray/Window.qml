@@ -740,10 +740,12 @@ ApplicationWindow {
 
         Loader {
             id: unifiedSearchResultsListViewSkeletonLoader
+
             anchors.top: trayWindowUnifiedSearchInputContainer.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
+            anchors.margins: controlRoot.padding
 
             active: !unifiedSearchResultNothingFound.visible &&
                     !unifiedSearchResultsListView.visible &&
@@ -752,6 +754,7 @@ ApplicationWindow {
 
             sourceComponent: UnifiedSearchResultItemSkeletonContainer {
                 anchors.fill: parent
+                spacing: unifiedSearchResultsListView.spacing
                 animationRectangleWidth: trayWindow.width
             }
         }
