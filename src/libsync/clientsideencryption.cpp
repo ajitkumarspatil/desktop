@@ -1083,6 +1083,11 @@ void ClientSideEncryption::slotRequestMnemonic()
     emit showMnemonic(_mnemonic);
 }
 
+void ClientSideEncryption::checkServerForKeys(const AccountPtr &account)
+{
+    fetchAndValidatePublicKeyFromServer(account);
+}
+
 void ClientSideEncryption::generateKeyPair(const AccountPtr &account)
 {
     // AES/GCM/NoPadding,
@@ -1325,8 +1330,8 @@ void ClientSideEncryption::getPublicKeyFromServer(const AccountPtr &account)
                 qCInfo(lcCse()) << "Found Public key, requesting Server Public Key. Public key:" << publicKey;
                 fetchAndValidatePublicKeyFromServer(account);
             } else if (retCode == 404) {
-                qCInfo(lcCse()) << "No public key on the server";
-                generateKeyPair(account);
+                qCInfo(lcCse()) << "No public key on the server. End to end encryption has not been enabled.";
+                emit initializationFinished();
             } else {
                 qCInfo(lcCse()) << "Error while requesting public key: " << retCode;
             }

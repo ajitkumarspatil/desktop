@@ -128,9 +128,9 @@ public:
     void forgetSensitiveData(const AccountPtr &account);
 
     bool newMnemonicGenerated() const;
-
 public slots:
     void slotRequestMnemonic();
+    void checkServerForKeys(const AccountPtr &account);
 
 private slots:
     void publicKeyFetched(QKeychain::Job *incoming);
